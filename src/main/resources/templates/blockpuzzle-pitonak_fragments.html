@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta th:fragment="content_type" http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta th:fragment="viewport" name="viewport" content="width=device-width, initial-scale=1" />
+        <title th:fragment="title">Block Puzzle - GameStudio Spring</title>
+        <link th:fragment="favicon" rel="icon" type="image/png" href="http://gamestudio.kpi.fei.tuke.sk/images/favicon-96x96.png" />
+        <link th:fragment="bulma_css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css" />
+        <link th:fragment="custom_css" rel="stylesheet" href="../css/blockpuzzle-pitonak.css" />
+        <link th:fragment="game_css" rel="stylesheet" href="../css/blockpuzzle-pitonak_game.css" />
+        <script th:fragment="font_awesome_js" defer="defer" src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+        <script th:fragment="jquery_js" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script th:fragment="field_scroll_js" src="../js/blockpuzzle-pitonak_scrollWithGameField.js"></script>
+        <script th:fragment="live_hud_js" src="../js/blockpuzzle-pitonak_liveHud.js"></script>
+    </head>
+
+    <body>
+        <!-- TOP NAVBAR -->
+        <nav th:fragment="top_navbar" class="navbar is-fixed-top has-shadow">
+            <div class="navbar-brand is-centered">
+                <a class="navbar-item" href="http://gamestudio.kpi.fei.tuke.sk">
+                    <img src="http://gamestudio.kpi.fei.tuke.sk/images/GameStudio.svg" alt="G"/>
+                </a>
+                <a class="navbar-item" href="/blockpuzzle-pitonak/play">New Game</a>
+                <a class="navbar-item" href="/blockpuzzle-pitonak/level-builder">Level Builder</a>
+                <a class="navbar-item" href="/blockpuzzle-pitonak/top-10">Top 10</a>
+                <a class="navbar-item" href="/blockpuzzle-pitonak/comments">Comments</a>
+                <a class="navbar-item" href="/blockpuzzle-pitonak/rating">Rating</a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <th:block th:switch="${@userController.logged}">
+                                <th:block th:case="false">
+                                    <p class="control">
+                                        <a class="button is-light" href="/login">
+                                            <span class="icon">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                            <span>Login</span>
+                                        </a>
+                                    </p>
+                                    <p class="control">
+                                        <a class="button is-light" href="/login">
+                                            <span class="icon">
+                                                <i class="fas fa-user-plus"></i>
+                                            </span>
+                                            <span>Register</span>
+                                        </a>
+                                    </p>
+                                </th:block>
+
+                                <th:block th:case="true">
+                                    <p class="control">
+                                        <a class="button is-info is-user-button">
+                                            <span class="icon">
+                                                <i class="fas fa-user-circle"></i>
+                                            </span>
+                                            <span th:text="${@userController.loggedUser?.username}"></span>
+                                        </a>
+                                    </p>
+                                    <p class="control">
+                                        <a class="button is-danger" href="/logout">
+                                            <span class="icon">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </span>
+                                        </a>
+                                    </p>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- SMALL HEADER -->
+        <section th:fragment="small_header" class="hero">
+            <div th:replace="::hud_points"></div>
+
+            <div class="box is-shadowless has-text-centered is-level-number-block">
+                <p class="title is-uppercase has-text-dark is-spaced">
+                    <span th:text="${webUI.level.currentLevelNumber} eq 0 ? '-' : ${webUI.level.currentLevelNumber}"></span>
+                </p>
+                <p class="subtitle is-uppercase has-text-dark is-spaced">
+                    Level
+                </p>
+            </div>
+
+            <div th:replace="::hud_moves"></div>
+
+            <div th:replace="::hud_seconds"></div>
+
+            <div class="hero-body is-header">
+                <div class="container has-text-left">
+                    <h1 class="title is-small-game-heading is-uppercase has-text-info is-spaced">Block Puzzle</h1>
+                    <nav class="subtitle breadcrumb is-left is-paddingless is-marginless" aria-label="breadcrumbs">
+                        <ul>
+                            <li>
+                                <a href="http://gamestudio.kpi.fei.tuke.sk">
+                                    <span class="icon is-small">
+                                        <img src="http://gamestudio.kpi.fei.tuke.sk/images/GameStudio.svg" alt="G" />
+                                    </span>
+                                    <span>GameStudio</span>
+                                </a>
+                            </li>
+                            <li th:replace="::breadcrumb_0"></li>
+                            <li th:replace="::breadcrumb_1"></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+
+        <!-- HEADER -->
+        <div th:fragment="header">
+            <section class="hero">
+                <div class="hero-body is-header">
+                    <div class="container has-text-centered">
+                        <h1 class="title is-game-heading is-uppercase has-text-info is-spaced">Block Puzzle</h1>
+                        <nav class="subtitle breadcrumb is-left is-paddingless is-marginless" aria-label="breadcrumbs">
+                            <ul>
+                                <li>
+                                    <a href="http://gamestudio.kpi.fei.tuke.sk">
+                                        <span class="icon is-small">
+                                            <img src="http://gamestudio.kpi.fei.tuke.sk/images/GameStudio.svg" alt="G" />
+                                        </span>
+                                        <span>GameStudio</span>
+                                    </a>
+                                </li>
+                                <li th:replace="::breadcrumb_0"></li>
+                                <li th:replace="::breadcrumb_1"></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VIEWPORT WARNING-->
+        <div th:fragment="viewport_warning" id="viewport-warning" class="tile">
+            <div class="tile is-vertical has-bottom-space">
+                <div class="tile is-parent is-paddingless">
+                    <article class="tile is-child notification is-warning has-shadow">
+                        <button onclick="document.getElementById('viewport-warning').style.display = 'none'" class="delete"></button>
+                        <div class="content">
+                            <p class="subtitle">
+                                <span>
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                </span>
+                                Warning
+                            </p>
+                            Your browser's window size might cause some undefined behaviour
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div th:fragment="footer" class="footer has-text-centered has-shadow">
+            <p>
+                <small>Created by <a href="mailto:samuel.pitonak@student.tuke.sk">Samuel Pitoňák</a> in 2018</small>
+            </p>
+            <p>
+                <small>This game is part of <a href="http://gamestudio.kpi.fei.tuke.sk">GameStudio</a> @ <a href="https://kpi.fei.tuke.sk/en">DCI FEE TUKE</a></small>
+            </p>
+            <p>
+                <small>Powered by <a href="https://spring.io">Spring</a> &amp; <a href="https://bulma.io">Bulma</a></small>
+            </p>
+        </div>
+    </body>
+</html>

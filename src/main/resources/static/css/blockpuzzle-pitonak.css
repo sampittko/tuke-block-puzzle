@@ -1,0 +1,166 @@
+/*
+    HEADLINE
+*/
+/* FONT */
+@font-face {
+    font-family: Arcade;
+    src:url(../fonts/arcade.regular.ttf) format('truetype');
+}
+
+/* RESPONSIVE HEADLINE */
+.is-game-heading {
+    font-family: 'Arcade', sans-serif;
+    padding: 45px 0;
+}
+
+@media only screen and (min-width: 881px) {
+    .is-game-heading {
+        font-size: 131px;
+    }
+}
+
+@media only screen and (max-width: 880px) and (min-width: 641px) {
+    .is-game-heading {
+        font-size: 91px;
+    }
+}
+
+@media only screen and (max-width: 640px) and (min-width: 401px) {
+    .is-game-heading {
+        font-size: 51px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .is-game-heading {
+        font-size: 41px;
+    }
+}
+
+/* SMALL HEADLINE */
+.is-small-game-heading {
+    font-family: 'Arcade', sans-serif;
+    padding: 0;
+    font-size: 85px;
+}
+
+/*
+    VIEWPORT WARNING
+*/
+#viewport-warning {
+    display: none;
+}
+
+@media only screen and (max-width: 1087px) {
+    #viewport-warning {
+        margin-top: 0;
+        display: flex;
+    }
+}
+
+/*
+    BULMA-LIKE PROPERTIES
+*/
+.box.has-background-transparent {
+    background-color: hsla(89, 43%, 51%, 0);
+}
+
+.has-shadow {
+    border-radius: 6px;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
+.is-not-displayed {
+    display: none;
+}
+
+.is-existing-comment {
+    margin-top: 25px;
+}
+
+.is-header {
+    padding-bottom: 25px;
+}
+
+.has-top-space {
+    margin-top: 24px;
+}
+
+.has-bottom-space {
+    margin-bottom: 24px;
+}
+
+.has-full-height {
+    min-height: 100%;
+}
+
+/* RATING */
+.is-rating {
+    padding: 19px 0 10px 0;
+}
+
+.is-rating a + a,
+.is-rating span + span {
+    margin: 0 0 0 10px;
+}
+
+.is-unable-rating span + span {
+    margin: 0 0 0 5px;
+}
+
+/* LOGIN */
+.is-login {
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+.is-login form + form {
+    margin: 35px 0 0 0;
+}
+
+/* MISC */
+.is-user-button {
+    pointer-events: none;
+}
+
+.is-profile-avatar {
+    margin: 25px 0 0 0;
+}
+
+.is-comment-submission form {
+    min-width: 100%;
+}
+
+/*
+    SLIGHT CHANGES TO BULMA
+*/
+.navbar-brand .navbar-item {
+    padding: 0 20px 0 80px;
+}
+
+.footer {
+    margin: 42px auto 0 auto;
+    padding: 15px 0;
+    width: 360px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.breadcrumb {
+    padding: 0 0 15px 0;
+}
+
+/*
+    OTHERS
+*/
+table {
+    table-layout: fixed;
+}
+
+html {
+    background: url("../images/blockpuzzle/pitonak/pattern.png");
+}
+
+/** {*/
+    /*border: 1px solid #000000;*/
+/*}*/

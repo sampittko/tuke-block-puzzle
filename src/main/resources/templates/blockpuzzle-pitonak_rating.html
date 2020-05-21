@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="has-navbar-fixed-top">
+    <head>
+        <meta th:replace="blockpuzzle-pitonak_fragments::content_type" />
+        <meta th:replace="blockpuzzle-pitonak_fragments::viewport" />
+        <title>Rating - Block Puzzle - GameStudio Spring</title>
+        <link th:replace="blockpuzzle-pitonak_fragments::favicon" />
+        <link th:replace="blockpuzzle-pitonak_fragments::bulma_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::custom_css" />
+        <script th:replace="blockpuzzle-pitonak_fragments::font_awesome_js"></script>
+    </head>
+
+    <body>
+        <div th:replace="blockpuzzle-pitonak_fragments::top_navbar"></div>
+
+        <div class="container">
+            <div th:replace="blockpuzzle-pitonak_fragments::header"></div>
+
+            <ul class="is-not-displayed">
+                <li th:fragment="breadcrumb_0">
+                    <a href="/blockpuzzle-pitonak/play">
+                        <span class="icon is-small">
+                            <i class="fas fa-gamepad" aria-hidden="true"></i>
+                        </span>
+                        <span>Block Puzzle</span>
+                    </a>
+                </li>
+                <li th:fragment="breadcrumb_1" class="is-active">
+                    <a href="#">
+                        <span class="icon is-small">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </span>
+                        <span>Rating</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::viewport_warning"></div>
+
+            <div class="container" th:with="averageRating=${rating}">
+                <div class="columns">
+                    <div class="column">
+                        <div class="box content has-text-centered">
+                            <p class="title">Average Rating</p>
+                            <p class="subtitle">How do players rate the Block Puzzle game</p>
+                            <div class="content is-rating has-background-light">
+                                <span th:if="${averageRating} &gt;= 1" class="icon has-text-warning">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                <span th:if="${averageRating} &gt;= 2" class="icon has-text-warning">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                <span th:if="${averageRating} &gt;= 3" class="icon has-text-warning">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                <span th:if="${averageRating} &gt;= 4" class="icon has-text-warning">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                    <span th:if="${averageRating} == 5" class="icon has-text-warning">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                    <span th:if="${averageRating} &lt; 5" class="icon">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                    <span th:if="${averageRating} &lt; 4" class="icon">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                    <span th:if="${averageRating} &lt; 3" class="icon">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                    <span th:if="${averageRating} &lt; 2" class="icon">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+                                    <span th:if="${averageRating} == 0" class="icon">
+                                    <i class="fas fa-2x fa-star"></i>
+                                </span>
+
+                                <br />
+                                <th:block th:switch="${averageRating}">
+                                    <span th:case="0" class="title is-6 has-text-grey-light">Not yet rated</span>
+                                    <span th:case="1" class="title is-6 has-text-danger">Bad</span>
+                                    <span th:case="2" class="title is-6 has-text-warning">Not good</span>
+                                    <span th:case="3" class="title is-6 has-text-info">Good</span>
+                                    <span th:case="4" class="title is-6 has-text-link">Very good</span>
+                                    <span th:case="5" class="title is-6 has-text-success">The best</span>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="tile is-parent is-marginless is-paddingless has-text-centered">
+                            <div class="tile is-child notification is-primary has-shadow">
+                                <div class="content">
+                                    <p class="title">Set Rating</p>
+                                    <th:block th:switch="${@userController.logged}">
+                                        <th:block th:case="true" th:with="userRating=${@userController.rating}">
+                                            <th:block th:switch="${userRating} eq 0">
+                                                <p th:case="true" class="subtitle">Choose how many stars below</p>
+                                                <p th:case="false" class="subtitle">Did you change your mind?</p>
+                                            </th:block>
+                                            <div class="content is-rating has-background-light">
+                                                <a th:if="${userRating} &gt;= 1" th:href="@{/blockpuzzle-pitonak/rating(r='1', p=${@userController.loggedUser.username})}">
+                                                    <span class="icon has-text-warning">
+                                                        <i class="fas fa-2x fa-star"></i>
+                                                    </span>
+                                                </a>
+                                                <a th:if="${userRating} &gt;= 2" th:href="@{/blockpuzzle-pitonak/rating(r='2', p=${@userController.loggedUser.username})}">
+                                                    <span th:if="${userRating} &gt;= 2" class="icon has-text-warning">
+                                                        <i class="fas fa-2x fa-star"></i>
+                                                    </span>
+                                                </a>
+                                                <a th:if="${userRating} &gt;= 3" th:href="@{/blockpuzzle-pitonak/rating(r='3', p=${@userController.loggedUser.username})}">
+                                                    <span th:if="${userRating} &gt;= 3" class="icon has-text-warning">
+                                                        <i class="fas fa-2x fa-star"></i>
+                                                    </span>
+                                                </a>
+                                                <a th:if="${userRating} &gt;= 4" th:href="@{/blockpuzzle-pitonak/rating(r='4', p=${@userController.loggedUser.username})}">
+                                                    <span th:if="${userRating} &gt;= 4" class="icon has-text-warning">
+                                                        <i class="fas fa-2x fa-star"></i>
+                                                    </span>
+                                                </a>
+                                                <a th:if="${userRating} eq 5" th:href="@{/blockpuzzle-pitonak/rating(r='5', p=${@userController.loggedUser.username})}">
+                                                    <span th:if="${userRating} eq 5" class="icon has-text-warning">
+                                                        <i class="fas fa-2x fa-star"></i>
+                                                    </span>
+                                                </a>
+                                                <th:block th:switch="${userRating}">
+                                                    <th:block th:case="4">
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='5', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                    </th:block>
+                                                    <th:block th:case="3">
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='4', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='5', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                    </th:block>
+                                                    <th:block th:case="2">
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='3', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='4', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='5', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                    </th:block>
+                                                    <th:block th:case="1">
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='2', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='3', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='4', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='5', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                    </th:block>
+                                                    <th:block th:case="0">
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='1', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='2', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='3', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='4', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a th:href="@{/blockpuzzle-pitonak/rating(r='5', p=${@userController.loggedUser.username})}">
+                                                            <span class="icon has-text-grey-dark">
+                                                                <i class="fas fa-2x fa-star"></i>
+                                                            </span>
+                                                        </a>
+                                                    </th:block>
+                                                </th:block>
+                                                <br />
+                                                <th:block th:switch="${userRating}">
+                                                    <span th:case="0" class="title is-6 has-text-grey-light">Not yet rated</span>
+                                                    <span th:case="1" class="title is-6 has-text-danger">Bad</span>
+                                                    <span th:case="2" class="title is-6 has-text-warning">Not good</span>
+                                                    <span th:case="3" class="title is-6 has-text-info">Good</span>
+                                                    <span th:case="4" class="title is-6 has-text-link">Very good</span>
+                                                    <span th:case="5" class="title is-6 has-text-success">The best</span>
+                                                </th:block>
+                                            </div>
+                                        </th:block>
+
+                                        <th:block th:case="false">
+                                            <p class="subtitle">You will be able to rate the game right after logging in</p>
+                                            <div class="content is-rating is-unable-rating has-text-danger has-background-light">
+                                                <span class="icon">
+                                                    <i class="fas fa-2x fa-times"></i>
+                                                </span>
+                                                <span class="icon">
+                                                    <i class="fas fa-2x fa-times"></i>
+                                                </span>
+                                                <span class="icon">
+                                                    <i class="fas fa-2x fa-times"></i>
+                                                </span>
+                                                <span class="icon">
+                                                    <i class="fas fa-2x fa-times"></i>
+                                                </span>
+                                                <span class="icon">
+                                                    <i class="fas fa-2x fa-times"></i>
+                                                </span>
+                                                <br />
+                                                <span class="title is-6 has-text-primary">Login to rate</span>
+                                            </div>
+                                        </th:block>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile is-ancestor">
+                <div class="tile is-vertical">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-dark has-shadow">
+                            <div class="content">
+                                <p class="subtitle">
+                                    <span>
+                                        <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                                    </span>
+                                    Any ideas on how to improve the game?
+                                </p>
+                                Hit me up through e-mail which you can find by clicking on my name inside footer
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::footer"></div>
+        </div>
+    </body>
+</html>

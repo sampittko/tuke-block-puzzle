@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="has-navbar-fixed-top">
+    <head>
+        <meta th:replace="blockpuzzle-pitonak_fragments::content_type" />
+        <meta th:replace="blockpuzzle-pitonak_fragments::viewport" />
+        <title>Level Builder - Block Puzzle - GameStudio Spring</title>
+        <link th:replace="blockpuzzle-pitonak_fragments::favicon" />
+        <link th:replace="blockpuzzle-pitonak_fragments::bulma_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::custom_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::game_css" />
+        <link rel="stylesheet" href="../css/blockpuzzle-pitonak_builder.css" />
+        <script th:replace="blockpuzzle-pitonak_fragments::font_awesome_js"></script>
+        <script th:replace="blockpuzzle-pitonak_fragments::jquery_js"></script>
+        <script th:replace="blockpuzzle-pitonak_fragments::field_scroll_js"></script>
+        <script th:replace="blockpuzzle-pitonak_fragments::live_hud_js"></script>
+    </head>
+
+    <body>
+        <div th:replace="blockpuzzle-pitonak_fragments::top_navbar"></div>
+
+        <div class="container">
+            <div th:replace="blockpuzzle-pitonak_fragments::small_header"></div>
+
+            <div class="is-not-displayed">
+                <ul>
+                    <li th:fragment="breadcrumb_0">
+                        <a href="/blockpuzzle-pitonak/play">
+                        <span class="icon is-small">
+                            <i class="fas fa-gamepad" aria-hidden="true"></i>
+                        </span>
+                            <span>Block Puzzle</span>
+                        </a>
+                    </li>
+                    <li th:fragment="breadcrumb_1" class="is-active">
+                        <a href="#">
+                        <span class="icon is-small">
+                            <i class="fas fa-th" aria-hidden="true"></i>
+                        </span>
+                            <span>Level Builder</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div th:fragment="hud_points" class="box is-shadowless has-text-centered is-game-score-block">
+                    <p class="title is-uppercase has-text-danger is-spaced">
+                        <th:block th:switch="${webUI.builderLevelReady}">
+                            <span th:case="true" id="live-score">-</span>
+                            <span th:case="false">-</span>
+                        </th:block>
+                    </p>
+                    <p class="subtitle is-uppercase has-text-danger is-spaced">
+                        Points
+                    </p>
+                </div>
+
+                <div th:fragment="hud_moves" class="box is-shadowless has-text-centered is-game-move-count">
+                    <p class="title is-uppercase has-text-dark is-spaced">
+                        <th:block th:switch="${webUI.builderLevelReady}">
+                            <th:block th:case="true">
+                                <th:block th:switch="${webUI.level.totalMoves} &lt; 999">
+                                    <span th:case="true" th:text="${webUI.level.totalMoves}"></span>
+                                    <span th:case="false">+++</span>
+                                </th:block>
+                            </th:block>
+                            <span th:case="false">-</span>
+                        </th:block>
+                    </p>
+                    <p class="subtitle is-uppercase has-text-dark is-spaced">
+                        Moves
+                    </p>
+                </div>
+
+                <div th:fragment="hud_seconds" class="box is-shadowless has-text-centered is-game-timer">
+                    <p class="title is-uppercase has-text-dark is-spaced">
+                        <th:block th:switch="${webUI.builderLevelReady}">
+                            <span th:case="true" id="live-seconds">-</span>
+                            <span th:case="false">-</span>
+                        </th:block>
+                    </p>
+                    <p class="subtitle is-uppercase has-text-dark is-spaced">
+                        Seconds
+                    </p>
+                </div>
+            </div>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::viewport_warning"></div>
+
+            <th:block th:switch="${webUI.levelBuilderEnabled}">
+                <div th:case="true" class="columns">
+                    <div class="column is-game-field" id="is-game-field">
+                        <table>
+                            <tr th:each="tiles, row : ${webUI.level.field.tileField}">
+                                <td th:each="tile, column : ${tiles}">
+                                    <div class="content">
+                                        <th:block th:switch="${tile.puzzleID} eq 0">
+                                            <th:block th:case="false">
+                                                <th:block th:switch="${webUI.level.solved}">
+                                                    <th:block th:case="true">
+                                                        <th:block th:switch="${webUI.builderLevelReady}">
+                                                            <div th:case="true" class="is-puzzle-tile" th:classappend="(${tile.puzzleID} eq 1) ? 'has-background-warning' : ((${tile.puzzleID} eq 2) ? 'has-background-danger' : (((${tile.puzzleID} eq 3)) ? 'has-background-success' : (((${tile.puzzleID} eq 4)) ? 'has-background-primary' : (((${tile.puzzleID} eq 5) ? 'has-background-link' : 'has-background-danger')))))">
+                                                                <div class="is-clickable-tile"></div>
+                                                            </div>
+
+                                                            <div th:case="false" class="is-puzzle-tile has-background-danger">
+                                                                <div class="is-clickable-tile"></div>
+                                                            </div>
+                                                        </th:block>
+                                                    </th:block>
+
+                                                    <th:block th:case="false">
+                                                        <th:block th:switch="${webUI.builderLevelReady}">
+                                                            <div th:case="true" class="is-puzzle-tile" th:classappend="(${tile.puzzleID} eq 1) ? 'has-background-warning' : ((${tile.puzzleID} eq 2) ? 'has-background-danger' : (((${tile.puzzleID} eq 3)) ? 'has-background-success' : (((${tile.puzzleID} eq 4)) ? 'has-background-primary' : (((${tile.puzzleID} eq 5) ? 'has-background-link' : 'has-background-danger')))))">
+                                                                <div class="is-clickable-tile"></div>
+                                                                <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='t', i=${tile.puzzleID})}"></a>
+                                                            </div>
+
+                                                            <div th:case="false" class="is-puzzle-tile has-background-danger">
+                                                                <div class="is-clickable-tile"></div>
+                                                                <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='t', i=${tile.puzzleID})}"></a>
+                                                            </div>
+                                                        </th:block>
+                                                    </th:block>
+                                                </th:block>
+                                            </th:block>
+
+                                            <th:block th:case="true">
+                                                <th:block th:switch="${webUI.puzzleSelected}">
+                                                    <div th:case="true" class="is-puzzle-tile has-background-dark">
+                                                        <div class="is-clickable-tile"></div>
+                                                        <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='p', r=${row.index}, c=${column.index})}"></a>
+                                                    </div>
+
+                                                    <div th:case="false" class="is-puzzle-tile has-background-dark">
+                                                        <div class="is-clickable-tile"></div>
+                                                    </div>
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <th:block th:switch="${webUI.level.solved}">
+                        <th:block th:case="false">
+                            <th:block th:switch="${webUI.builderLevelReady}">
+                                <div th:case="false" class="column is-builder-puzzles-box">
+                                    <table th:if="${puzzle.state.name()} eq 'NOT_PLACED'" th:each="puzzle, iterator : ${webUI.level.puzzlesBox.puzzlesList}" class="has-builder-puzzles-box-bottom-space">
+                                        <tr th:each="tiles, row : ${puzzle.tileField}">
+                                            <td th:each="tile, column : ${tiles}">
+                                                <div class="content">
+                                                    <th:block th:switch="${tile.state.name()}">
+                                                        <div th:case="'FULL'" class="is-puzzle-tile has-background-danger">
+                                                            <div class="is-clickable-tile"></div>
+                                                            <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='s', i=${puzzle.ID}, r=${row.index}, c=${column.index})}"></a>
+                                                        </div>
+
+                                                        <div th:case="'EMPTY'" class="is-puzzle-tile has-background-dark">
+                                                            <div class="is-clickable-tile"></div>
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div th:case="true" class="column is-game-puzzles-box">
+                                    <table th:if="${puzzle.state.name()} eq 'NOT_PLACED'" th:each="puzzle, iterator : ${webUI.level.puzzlesBox.puzzlesList}" class="has-puzzles-box-bottom-space">
+                                        <tr th:each="tiles, row : ${puzzle.tileField}">
+                                            <td th:each="tile, column : ${tiles}">
+                                                <div class="content">
+                                                    <th:block th:switch="${tile.state.name()}">
+                                                        <div th:case="'FULL'" class="is-puzzle-tile" th:classappend="(${iterator.index} + 1 eq 1) ? 'has-background-warning' : ((${iterator.index} + 1 eq 2) ? 'has-background-danger' : (((${iterator.index} + 1 eq 3)) ? 'has-background-success' : (((${iterator.index} + 1 eq 4)) ? 'has-background-primary' : (((${iterator.index} + 1 eq 5) ? 'has-background-link')))))">
+                                                            <div class="is-clickable-tile"></div>
+                                                            <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='s', i=${puzzle.ID}, r=${row.index}, c=${column.index})}"></a>
+                                                        </div>
+
+                                                        <div th:case="'EMPTY'" class="is-puzzle-tile has-background-dark">
+                                                            <div class="is-clickable-tile"></div>
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </th:block>
+                        </th:block>
+                        <div th:case="true" class="column">
+                            <th:block th:switch="${webUI.builderLevelReady}">
+                                <div th:case="false" class="box has-text-centered is-shadowless has-background-transparent">
+                                    <h1 class="subtitle has-text-weight-semibold" th:text="'Level built!'"></h1>
+                                    <a class="button is-large is-success is-outlined is-uppercase has-text-weight-semibold" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='l')}">Start playing</a>
+                                    <a class="button is-large is-danger is-outlined is-uppercase has-text-weight-semibold" href="/blockpuzzle-pitonak/level-builder">Build new</a>
+                                    <br />
+                                    <small>
+                                    <span class="has-text-dark">
+                                        <i class="fas fa-play"></i>
+                                    </span>
+                                        Let your friend play and test his skills.
+                                    </small>
+                                </div>
+
+                                <div th:case="true" class="box has-text-centered is-shadowless has-background-transparent">
+                                    <h1 class="subtitle has-text-weight-semibold">Good job on solving custom level!</h1>
+                                    <a class="button is-large is-success is-outlined is-uppercase has-text-weight-semibold" href="#" th:href="@{/blockpuzzle-pitonak/level-builder(a='a')}">Play again</a>
+                                    <a class="button is-large is-danger is-outlined is-uppercase has-text-weight-semibold" href="/blockpuzzle-pitonak/level-builder">Build new</a>
+                                    <br />
+                                </div>
+                            </th:block>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div th:case="false" class="box has-text-centered is-shadowless has-background-transparent">
+                    <p class="title is-8">Component is disabled.</p>
+                    <p class="subtitle">We are sorry.</p>
+                </div>
+            </th:block>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::footer"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+/* PUZZLES BOX */
+.is-builder-puzzles-box table {
+    width: 23%;
+    float: left;
+}
+
+.column.is-builder-puzzles-box {
+    padding-left: 0;
+}
+
+.is-builder-puzzles-box table + table,
+.is-builder-puzzles-box table:first-child {
+    margin-left: 13px;
+}
+
+.has-builder-puzzles-box-bottom-space {
+    margin-bottom: 16px;
+}

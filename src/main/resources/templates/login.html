@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="has-navbar-fixed-top">
+    <head>
+        <meta th:replace="blockpuzzle-pitonak_fragments::content_type" />
+        <meta th:replace="blockpuzzle-pitonak_fragments::viewport" />
+        <title th:replace="blockpuzzle-pitonak_fragments::title"></title>
+        <link th:replace="blockpuzzle-pitonak_fragments::favicon" />
+        <link th:replace="blockpuzzle-pitonak_fragments::bulma_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::custom_css" />
+        <script th:replace="blockpuzzle-pitonak_fragments::font_awesome_js"></script>
+    </head>
+
+    <body>
+        <div th:replace="blockpuzzle-pitonak_fragments::top_navbar"></div>
+
+        <div class="container">
+            <div th:replace="blockpuzzle-pitonak_fragments::header"></div>
+
+            <ul class="is-not-displayed">
+                <li th:fragment="breadcrumb_0">
+                    <a href="blockpuzzle-pitonak_newGame">
+                        <span class="icon is-small">
+                            <i class="fas fa-gamepad" aria-hidden="true"></i>
+                        </span>
+                        <span>Block Puzzle</span>
+                    </a>
+                </li>
+                <li th:fragment="breadcrumb_1" class="is-active">
+                    <a href="#">
+                        <span class="icon is-small">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                        </span>
+                        <span>Login or Register</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::viewport_warning"></div>
+
+            <div class="box has-text-centered is-login" th:switch="${@userController.logged}">
+                <th:block th:case="false">
+                    <form action="/login" method="post">
+                        <h2 class="title">Login</h2>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input" name="username" type="text" placeholder="Username" />
+                                <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input" name="passwd" type="password" placeholder="Password" />
+                                <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                            </p>
+                        </div>
+                        <div class="control">
+                            <button class="button is-outlined is-primary">
+                                <input type="submit" class="is-not-displayed" />
+                                Login
+                            </button>
+                        </div>
+                    </form>
+
+                    <form action="/register" method="post">
+                        <h2 class="title">Register</h2>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input" name="username" type="text" placeholder="Username" />
+                                <span class="icon is-small is-left">
+                                <i class="fas fa-user-plus"></i>
+                            </span>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input class="input" name="passwd" type="password" placeholder="Password" />
+                                <span class="icon is-small is-left">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            </p>
+                        </div>
+                        <div class="control">
+                            <button class="button is-outlined is-link">
+                                <input type="submit" class="is-not-displayed is-login" />
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </th:block>
+                <th:block th:case="true">
+                    <a class="button is-danger" href="logout">
+                        <span class="icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>
+                        <span>Logout</span>
+                    </a>
+                </th:block>
+            </div>
+        </div>
+
+        <div th:replace="blockpuzzle-pitonak_fragments::footer"></div>
+    </body>
+</html>

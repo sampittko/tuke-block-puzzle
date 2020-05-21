@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="has-navbar-fixed-top">
+    <head>
+        <meta th:replace="blockpuzzle-pitonak_fragments::content_type" />
+        <meta th:replace="blockpuzzle-pitonak_fragments::viewport" />
+        <title>Comments - Block Puzzle - GameStudio Spring</title>
+        <link th:replace="blockpuzzle-pitonak_fragments::favicon" />
+        <link th:replace="blockpuzzle-pitonak_fragments::bulma_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::custom_css" />
+        <script th:replace="blockpuzzle-pitonak_fragments::font_awesome_js"></script>
+    </head>
+
+    <body>
+        <div th:replace="blockpuzzle-pitonak_fragments::top_navbar"></div>
+
+        <div class="container">
+            <div th:replace="blockpuzzle-pitonak_fragments::header"></div>
+
+            <ul class="is-not-displayed">
+                <li th:fragment="breadcrumb_0">
+                    <a href="/blockpuzzle-pitonak/play">
+                    <span class="icon is-small">
+                        <i class="fas fa-gamepad" aria-hidden="true"></i>
+                    </span>
+                        <span>Block Puzzle</span>
+                    </a>
+                </li>
+                <li th:fragment="breadcrumb_1" class="is-active">
+                    <a href="#">
+                        <span class="icon is-small">
+                            <i class="fas fa-comments" aria-hidden="true"></i>
+                        </span>
+                        <span>Comments</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::viewport_warning"></div>
+
+            <div class="box content">
+                <p class="title">Comments</p>
+                <p class="subtitle">Express yourself, share opinions, discuss..</p>
+                <article class="media is-existing-comment" th:each="comment: ${comments}">
+                    <figure class="media-left is-profile-avatar">
+                        <span class="has-text-grey-lighter">
+                            <i class="fas fa-3x fa-user-secret"></i>
+                        </span>
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong th:text="${comment.player}"></strong> <small th:text="${#dates.format(comment.commentedOn, 'dd/MM/yyyy, HH:MM')}"></small>
+                                <br />
+                                <p th:text="${comment.comment}"></p>
+                            </p>
+                        </div>
+                        <nav class="is-mobile">
+                            <div class="level-left">
+                                <a class="level-item" target="_blank" th:href="@{https://twitter.com/intent/tweet(text='Player with nickname ' + ${comment.player} + ' commented on Block Puzzle game by Samuel Pitoňák in GameStudio (http://gamestudio.fei.tuke.sk): ' + ${comment.comment})}">
+                                    <span class="icon is-small">
+                                        <i class="has-text-success fas fa-retweet"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+
+            <div th:if="${@userController.logged}" class="tile is-ancestor is-comment-submission">
+                <form action="/blockpuzzle-pitonak/comments" method="get">
+                    <div class="tile is-vertical">
+                        <div class="tile is-parent">
+                            <article class="tile is-child notification is-light has-shadow">
+                                <p class="subtitle">Post a new comment</p>
+                                <div class="content">
+                                    <article class="media">
+                                        <figure class="media-left is-profile-avatar">
+                                            <span class="has-text-grey-dark">
+                                                <i class="fas fa-3x fa-user-secret"></i>
+                                            </span>
+                                        </figure>
+                                        <div class="media-content">
+                                            <div class="field">
+                                                <p class="control">
+                                                    <textarea name="c" class="textarea" placeholder="Enter your text.." required="required"></textarea>
+                                                </p>
+                                            </div>
+                                            <nav class="level">
+                                                <div class="level-left">
+                                                    <div class="level-item">
+                                                        <button type="submit" value="Submit" class="button is-success">
+                                                            Post
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </nav>
+                                            <input title="Player" name="p" th:value="${@userController.loggedUser?.username}" class="is-not-displayed" />
+                                        </div>
+                                    </article>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div th:if="${!@userController.logged}" class="tile is-ancestor">
+                <div class="tile is-vertical">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-primary has-shadow">
+                            <div class="content">
+                                <p class="subtitle">
+                                    <span>
+                                        <i class="fas fa-comment" aria-hidden="true"></i>
+                                    </span>
+                                    Post a new comment
+                                </p>
+                                You must login first in order to be able to post a new comment here
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::footer"></div>
+        </div>
+    </body>
+</html>

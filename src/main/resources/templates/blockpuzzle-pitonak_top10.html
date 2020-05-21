@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="has-navbar-fixed-top">
+    <head>
+        <meta th:replace="blockpuzzle-pitonak_fragments::content_type" />
+        <meta th:replace="blockpuzzle-pitonak_fragments::viewport" />
+        <title>Top 10 - Block Puzzle - GameStudio Spring</title>
+        <link th:replace="blockpuzzle-pitonak_fragments::favicon" />
+        <link th:replace="blockpuzzle-pitonak_fragments::bulma_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::custom_css" />
+        <script th:replace="blockpuzzle-pitonak_fragments::font_awesome_js"></script>
+    </head>
+
+    <body>
+        <div th:replace="blockpuzzle-pitonak_fragments::top_navbar"></div>
+
+        <div class="container">
+            <div th:replace="blockpuzzle-pitonak_fragments::header"></div>
+
+            <ul class="is-not-displayed">
+                <li th:fragment="breadcrumb_0">
+                    <a href="/blockpuzzle-pitonak/play">
+                        <span class="icon is-small">
+                            <i class="fas fa-gamepad" aria-hidden="true"></i>
+                        </span>
+                        <span>Block Puzzle</span>
+                    </a>
+                </li>
+                <li th:fragment="breadcrumb_1" class="is-active">
+                    <a href="#">
+                        <span class="icon is-small">
+                            <i class="fas fa-trophy" aria-hidden="true"></i>
+                        </span>
+                        <span>Top 10</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::viewport_warning"></div>
+
+            <div class="box content">
+                <p class="title">Top 10</p>
+                <p class="subtitle">Are you one of the best?</p>
+                <div class="content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="has-text-centered">Position</th>
+                                <th class="has-text-centered">Player</th>
+                                <th class="has-text-centered">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:id="${position}"
+                                th:each="score, position: ${scores}"
+                                th:class="(${position.count} eq 1) ? 'has-background-danger has-text-white-bis' : ((${position.count} eq 2) ? 'has-background-warning has-text-white-bis' : ((${position.count} eq 3) ? 'has-background-success has-text-white-bis'))">
+                                <td class="has-text-centered" th:text="${position.count}"></td>
+                                <td class="has-text-centered" th:text="${score.player}"></td>
+                                <td class="has-text-centered" th:text="${score.points}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tile is-ancestor">
+                <div class="tile is-vertical">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-primary has-text-centered has-shadow">
+                            <p class="title">Cannot find yourself?</p>
+                            <p class="subtitle">Challenge the best players by starting a new game and showing them all how it's done</p>
+                            <div class="content">
+                                <a class="button is-danger" href="/blockpuzzle-pitonak/play">New Game</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::footer"></div>
+        </div>
+    </body>
+</html>

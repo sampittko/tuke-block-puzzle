@@ -1,0 +1,156 @@
+/*
+    GAME STYLES
+*/
+/* FIELD AND PUZZLES BOX */
+.is-game-field td,
+.is-game-puzzles-box td {
+    width: 30%;
+    position: relative;
+}
+
+.is-game-field td a,
+.is-game-puzzles-box td a {
+    display: block;
+    width: 100%;
+}
+
+.is-game-field td:after,
+.is-game-puzzles-box td:after {
+    content: '';
+    display: block;
+    margin-top: 100%;
+}
+
+.is-game-field td .content,
+.is-game-puzzles-box td .content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* FIELD */
+.is-game-field table {
+    width: 100%;
+}
+
+/* PUZZLES BOX */
+.is-game-puzzles-box table {
+    width: 48%;
+    float: left;
+}
+
+.column.is-game-puzzles-box {
+    padding-left: 0;
+}
+
+.is-game-puzzles-box table + table,
+.is-game-puzzles-box table:first-child {
+    margin-left: 10px;
+}
+
+.has-puzzles-box-bottom-space {
+    margin-bottom: 27px;
+}
+
+/* TABLE CLICKABLE TILE */
+.is-puzzle-tile {
+    transform: scale(1);
+    position: relative;
+    width: 99%;
+    max-width: 20em;
+}
+
+.is-clickable-tile {
+    position: relative;
+    height: 0;
+    padding-bottom: 100%;
+}
+
+.is-clickable-tile-link:before {
+    content: '';
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+}
+
+/*
+    GAME HUD
+*/
+/* SCORE */
+.box.is-game-score-block {
+    padding-right: 24px;
+}
+
+.is-game-score-block {
+    position: absolute;
+    right: 0;
+    top: 28px;
+    background-color: hsla(89, 43%, 51%, 0);
+}
+
+/* LEVEL */
+.is-level-number-block {
+    position: absolute;
+    right: 150px;
+    top: 28px;
+    color: hsla(89, 43%, 51%, 0);
+}
+
+/* MOVES */
+.is-game-move-count {
+    position: absolute;
+    right: 300px;
+    top: 28px;
+    background-color: hsla(89, 43%, 51%, 0);
+}
+
+/* SECONDS */
+.is-game-timer {
+    position: absolute;
+    right: 450px;
+    top: 28px;
+    background-color: hsla(89, 43%, 51%, 0);
+}
+
+/* RESPONSIVITY */
+@media only screen and (max-width: 1280px) {
+    .box.is-game-timer,
+    .box.is-game-move-count,
+    .box.is-game-score-block,
+    .box.is-level-number-block {
+        top: 0;
+    }
+
+    .is-small-game-heading {
+        font-size: 0;
+    }
+
+    .hero-body.is-header {
+        margin-top: 85px;
+    }
+}
+
+/* MISC */
+.is-game-score-block p.title,
+.is-level-number-block p.title,
+.is-game-timer p.title,
+.is-game-move-count p.title {
+    font-family: 'Arcade', sans-serif;
+    font-size: 85px;
+}
+
+.is-game-score-block p.subtitle,
+.is-level-number-block p.subtitle,
+.is-game-timer p.subtitle,
+.is-game-move-count p.subtitle {
+    font-family: 'Arcade', sans-serif;
+    font-size: 25px;
+    position: relative;
+    top: -50px;
+}

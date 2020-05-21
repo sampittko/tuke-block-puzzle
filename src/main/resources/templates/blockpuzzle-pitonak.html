@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="has-navbar-fixed-top">
+    <head>
+        <meta th:replace="blockpuzzle-pitonak_fragments::content_type" />
+        <meta th:replace="blockpuzzle-pitonak_fragments::viewport" />
+        <title th:replace="blockpuzzle-pitonak_fragments::title"></title>
+        <link th:replace="blockpuzzle-pitonak_fragments::favicon" />
+        <link th:replace="blockpuzzle-pitonak_fragments::bulma_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::custom_css" />
+        <link th:replace="blockpuzzle-pitonak_fragments::game_css" />
+        <script th:replace="blockpuzzle-pitonak_fragments::font_awesome_js"></script>
+        <script th:replace="blockpuzzle-pitonak_fragments::jquery_js"></script>
+        <script th:replace="blockpuzzle-pitonak_fragments::field_scroll_js"></script>
+        <script th:replace="blockpuzzle-pitonak_fragments::live_hud_js"></script>
+    </head>
+
+    <body>
+        <div th:replace="blockpuzzle-pitonak_fragments::top_navbar"></div>
+
+        <div class="container">
+            <div th:replace="blockpuzzle-pitonak_fragments::small_header"></div>
+
+            <div class="is-not-displayed">
+                <ul>
+                    <li th:fragment="breadcrumb_0" class="is-active">
+                        <a href="/blockpuzzle-pitonak/play">
+                        <span class="icon is-small">
+                            <i class="fas fa-gamepad" aria-hidden="true"></i>
+                        </span>
+                            <span>Block Puzzle</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="is-not-displayed">
+                <div th:fragment="hud_points" class="box is-shadowless has-text-centered is-game-score-block">
+                    <p class="title is-uppercase has-text-danger is-spaced">
+                        <span id="live-score">-</span>
+                    </p>
+                    <p class="subtitle is-uppercase has-text-danger is-spaced">
+                        Points
+                    </p>
+                </div>
+
+                <div th:fragment="hud_moves" class="box is-shadowless has-text-centered is-game-move-count">
+                    <p class="title is-uppercase has-text-dark is-spaced">
+                        <th:block th:switch="${webUI.level.totalMoves} &lt; 999">
+                            <span th:case="true" th:text="${webUI.level.totalMoves}"></span>
+                            <span th:case="false">+++</span>
+                        </th:block>
+                    </p>
+                    <p class="subtitle is-uppercase has-text-dark is-spaced">
+                        Moves
+                    </p>
+                </div>
+
+                <div th:fragment="hud_seconds" class="box is-shadowless has-text-centered is-game-timer">
+                    <p class="title is-uppercase has-text-dark is-spaced">
+                        <span id="live-seconds">-</span>
+                    </p>
+                    <p class="subtitle is-uppercase has-text-dark is-spaced">
+                        Seconds
+                    </p>
+                </div>
+            </div>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::viewport_warning"></div>
+
+            <div th:if="${!@userController.logged}" id="account-benefits" class="tile">
+                <div class="tile is-vertical has-bottom-space" >
+                    <div class="tile is-parent is-paddingless">
+                        <article class="tile is-child notification is-primary has-shadow">
+                            <div class="content">
+                                <p class="subtitle">
+                                    <span>
+                                        <i class="fas fa-hand-point-right" aria-hidden="true"></i>
+                                    </span>
+                                    Compete, comment and rate the game
+                                </p>
+                                You gain a lot by creating a new account or logging into an existing one
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-game-field" id="is-game-field">
+                    <table>
+                        <tr th:each="tiles, row : ${webUI.level.field.tileField}">
+                            <td th:each="tile, column : ${tiles}">
+                                <div class="content">
+                                    <th:block th:switch="${tile.puzzleID} eq 0">
+                                        <th:block th:case="false">
+                                            <th:block th:switch="${webUI.level.solved}">
+                                                <div th:case="false" class="is-puzzle-tile" th:classappend="(${tile.puzzleID} eq 1) ? 'has-background-warning' : ((${tile.puzzleID} eq 2) ? 'has-background-danger' : (((${tile.puzzleID} eq 3)) ? 'has-background-success' : (((${tile.puzzleID} eq 4)) ? 'has-background-primary' : (((${tile.puzzleID} eq 5) ? 'has-background-link')))))">
+                                                    <div class="is-clickable-tile"></div>
+                                                    <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/play(a='t', i=${tile.puzzleID})}"></a>
+                                                </div>
+
+                                                <div th:case="true" class="is-puzzle-tile" th:classappend="(${tile.puzzleID} eq 1) ? 'has-background-warning' : ((${tile.puzzleID} eq 2) ? 'has-background-danger' : (((${tile.puzzleID} eq 3)) ? 'has-background-success' : (((${tile.puzzleID} eq 4)) ? 'has-background-primary' : (((${tile.puzzleID} eq 5) ? 'has-background-link')))))">
+                                                    <div class="is-clickable-tile"></div>
+                                                </div>
+                                            </th:block>
+                                        </th:block>
+
+                                        <th:block th:case="true">
+                                            <th:block th:switch="${webUI.puzzleSelected}">
+                                                <div th:case="true" class="is-puzzle-tile">
+                                                    <div class="is-clickable-tile has-background-dark"></div>
+                                                    <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/play(a='p', r=${row.index}, c=${column.index})}"></a>
+                                                </div>
+
+                                                <div th:case="false" class="is-puzzle-tile">
+                                                    <div class="is-clickable-tile has-background-dark"></div>
+                                                </div>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <th:block th:switch="${webUI.level.solved}">
+                    <div th:case="false" class="column is-game-puzzles-box">
+                        <table th:if="${puzzle.state.name()} eq 'NOT_PLACED'" th:each="puzzle, iterator : ${webUI.level.puzzlesBox.puzzlesList}" class="has-puzzles-box-bottom-space">
+                            <tr th:each="tiles, row : ${puzzle.tileField}">
+                                <td th:each="tile, column : ${tiles}">
+                                    <div class="content">
+                                        <th:block th:switch="${tile.state.name()}">
+                                            <div th:case="'FULL'" class="is-puzzle-tile" th:classappend="(${iterator.index} + 1 eq 1) ? 'has-background-warning' : ((${iterator.index} + 1 eq 2) ? 'has-background-danger' : (((${iterator.index} + 1 eq 3)) ? 'has-background-success' : (((${iterator.index} + 1 eq 4)) ? 'has-background-primary' : (((${iterator.index} + 1 eq 5) ? 'has-background-link')))))">
+                                                <div class="is-clickable-tile"></div>
+                                                <a class="is-clickable-tile-link" href="#" th:href="@{/blockpuzzle-pitonak/play(a='s', i=${puzzle.ID}, r=${row.index}, c=${column.index})}"></a>
+                                            </div>
+
+                                            <div th:case="'EMPTY'" class="is-puzzle-tile has-background-dark">
+                                                <div class="is-clickable-tile"></div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div th:case="true" class="column">
+                        <th:block th:switch="${webUI.level.currentLevelNumber} eq ${webUI.maxLevelNumber}">
+                            <th:block th:case="false">
+                                <th:block th:switch="${@userController.logged}">
+                                    <div th:case="true" class="box has-text-centered is-shadowless has-background-transparent">
+                                        <h1 class="subtitle has-text-weight-semibold" th:text="'Good job on solving the level, ' + ${@userController.loggedUser?.username} + '!'"></h1>
+                                        <a class="button is-large is-success is-outlined is-uppercase has-text-weight-semibold" href="#" th:href="@{/blockpuzzle-pitonak/play(a='n')}">Play next level</a>
+                                        <a class="button is-large is-danger is-outlined is-uppercase has-text-weight-semibold" href="#" th:href="@{/blockpuzzle-pitonak/play(a='r', p=${@userController.loggedUser?.username})}">Save and reset</a>
+                                    </div>
+
+                                    <div th:case="false" class="box has-text-centered is-shadowless has-background-transparent">
+                                        <h1 class="title is-4">Good job on solving the level!</h1>
+                                        <a class="button is-large is-success is-outlined is-uppercase has-text-weight-semibold" href="#" th:href="@{/blockpuzzle-pitonak/play(a='n')}">Play next level</a>
+                                        <a class="button is-large is-danger is-outlined is-uppercase has-text-weight-semibold" href="/blockpuzzle-pitonak/play">Reset</a>
+                                        <br />
+                                        <small>
+                                            <span class="has-text-dark">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            Consider logging in or registering to record points.
+                                        </small>
+                                    </div>
+                                </th:block>
+                            </th:block>
+
+                            <th:block th:case="true">
+                                <th:block th:switch="${@userController.logged}">
+                                    <div th:case="true" class="box has-text-centered is-shadowless has-background-transparent">
+                                        <h1 class="title is-4" th:text="'Good job on solving the last level, ' + ${@userController.loggedUser?.username} + '!'"></h1>
+                                        <a class="button is-large is-danger is-outlined is-uppercase has-text-weight-semibold" href="#" th:href="@{/blockpuzzle-pitonak/play(a='r', p=${@userController.loggedUser?.username})}">Save and reset</a>
+                                    </div>
+
+                                    <div th:case="false" class="box has-text-centered is-shadowless has-background-transparent">
+                                        <h1 class="title is-4">Good job on solving the last level!</h1>
+                                        <a class="button is-large is-danger is-outlined is-uppercase has-text-weight-semibold" href="/blockpuzzle-pitonak/play">Reset</a>
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </th:block>
+            </div>
+
+            <div th:replace="blockpuzzle-pitonak_fragments::footer"></div>
+        </div>
+    </body>
+</html>
